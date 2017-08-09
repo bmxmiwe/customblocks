@@ -1,0 +1,36 @@
+<?php
+$categories = $block->getStoreCategories(true, false, true);
+$categoryHelper = $block->getCategoryHelper();
+?>
+<ul>
+    <?php
+    foreach ($categories as $category):
+        if (!$category->getIsActive()) {
+            continue;
+        }
+
+        ?>
+        <li><a href="<?php echo $categoryHelper->getCategoryUrl($category) ?>"><?php echo $category->getName() ?></a>
+        </li>
+        <?php
+        if ($childrenCategories = $block->getChildCategories($category)):
+            ?>
+            <ul>
+                <?php
+                foreach ($childrenCategories as $childrenCategory):
+                    if (!$childrenCategory->getIsActive()) {
+                        continue;
+                    }
+                    ?>
+                    <li>
+                        <a href="<?php echo $categoryHelper->getCategoryUrl($childrenCategory) ?>"><?php echo $childrenCategory->getName() ?></a>
+                    </li>
+                    <?php
+                endforeach;
+                ?>
+            </ul>
+            <?php
+        endif;
+    endforeach;
+    ?>
+</ul>
